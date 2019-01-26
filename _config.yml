@@ -14,13 +14,12 @@ github_username:  cuparkit
 # Build Settings
 
 markdown: kramdown
-theme: minima
 plugins:
   - jekyll-feed
   - github-pages
 sass:
   style: compressed
-  
+
 # Page Defaults
 
 defaults:
