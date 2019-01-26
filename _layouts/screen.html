@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+
+<html>
+
+    <head>
+
+        {% include head.html %}
+        
+    </head>
+
+    <body>
+
+        {% if page.hasHeaderbar %}
+            {% include headerbar.html %}
+        {% endif %}
+
+        {{ content }}
+
+        {% if page.hasNavbar %}
+            {% navbar.html %}
+        {% endif %}
+
+        {% scripts.html %}
+
+    </body>    
+
+</html>
