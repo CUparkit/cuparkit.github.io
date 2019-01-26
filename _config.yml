@@ -13,10 +13,9 @@ github_username:  cuparkit
 
 # Build Settings
 
-markdown: kramdown
-plugins:
-  - jekyll-feed
-  - github-pages
+markdown: kramdown  
+# plugins:
+#   - github-pages
 sass:
   style: compressed
 
@@ -27,7 +26,8 @@ defaults:
     scope:
       path: ""
     values:
-      layout: "default"
+      hasBackbutton: true
+      layout: "screen"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
