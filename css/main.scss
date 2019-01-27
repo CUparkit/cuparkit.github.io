@@ -1,0 +1,11 @@
+---
+---
+
+.live-icon::before {
+    content: "LIVE";
+    background-color: red;
+    display: inline;
+    color: white;
+    border-radius: 5px;
+    padding: 2px 4px;
+}
