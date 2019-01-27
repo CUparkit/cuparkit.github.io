@@ -14,24 +14,22 @@ app.config(function($routeProvider) {
         })
         .when("/lot", {
             templateUrl: "lot.html",
-            controller: "lotCtrl"
+            controller: "mainCtrl"
         })
         .when("/survey", {
             templateUrl: "survey.html",
-            controller: "surveyCtrl"
+            controller: "mainCtrl"
         })
         .when("/settings", {
             templateUrl: "settings.html",
-            controller: "settingCtrl"
+            controller: "mainCtrl"
         });
 });
 
-app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
-                   function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
+app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler",
+                   function( $scope ,  apiHandler,   settingsHandler) {
     
     console.info("MAINCTRL LOADED");
-    
-    $scope.stateHandler = stateHandler;
 
     var promise = apiHandler.getData();
 
@@ -44,65 +42,20 @@ app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHan
     //     scope.data = newVal
     // });
 
+    // new ProgressBar.Circle("#lot-status-big", {
+    //     from: { color: '#aaa', width: 1 },
+    //     to: { color: '#333', width: 7 },
+    //     strokeWidth: 7,
+    //     text: {
+    //         autoStyleContainer: true
+    //     },
+    //     step: function(state, circle) {
 
-}]);
-
-app.controller("settingsCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
-                       function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
-
-    
-    var promise = apiHandler.getData();
-
-    promise.then(function(data) {
-        $scope.lots = data;
-        // console.log($scope.lots)
-    });
-    console.info("SETTINGSCTRL LOADED");
-
-}]);
-
-app.controller("surveyCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
-                     function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
-    
-    
-    var promise = apiHandler.getData();
-
-    promise.then(function(data) {
-        $scope.lots = data;
-        // console.log($scope.lots)
-    });
-    console.info("SURVEYCTRL LOADED");
-
-}]);
-
-app.controller("lotCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler", "timeHelper",
-                  function( $scope ,  apiHandler,   settingsHandler,   stateHandler, timeHelper) {
-
-    console.info("LOTCTRL LOADED");
-
-    var promise = apiHandler.getData();
-
-    promise.then(function(data) {
-        $scope.lots = data;
-        // console.log($scope.lots)
-    });
-    $scope.stateHandler = stateHandler;
-
-    
-    new ProgressBar.Circle("#lot-status-big", {
-        from: { color: '#aaa', width: 1 },
-        to: { color: '#333', width: 7 },
-        strokeWidth: 7,
-        text: {
-            autoStyleContainer: true
-        },
-        step: function(state, circle) {
-
-              circle.setText(Math.round(circle.value() * 100));
+    //           circle.setText(Math.round(circle.value() * 100));
         
-        }
+    //     }
         
-    }).animate(0.6);
+    // }).animate(0.6);
 
 }]);
 
@@ -111,31 +64,6 @@ app.factory("timeHelper", [function() {
     return {
         getHour: function() { new Date().getHours(); }
     }
-}]);
-
-app.factory("stateHandler", ["apiHandler", function(apiHandler) {
-
-    console.info("STATE HANDLER LOADED");
-
-    var service = {}
-
-    var selectedLotName = "";
-
-    service.getSelectedLot = function() {
-        return apiHandler.getLot(selectedLotName);
-    };
-
-    service.getSelectedLotName = function() {
-        return selectedLotName;
-    };
-
-    service.setSelectedLotName = function(newSelection) {
-        selectedLotName = newSelection;
-        console.log(selectedLotName);
-    };
-
-    return service;
-
 }]);
 
 app.factory("apiHandler", ["$http", "$q", function($http, $q) {
