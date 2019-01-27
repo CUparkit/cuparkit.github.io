@@ -1,0 +1,21 @@
+{
+  "short_name": "parkit",
+  "name": "CUparkit",
+  "icons": [
+    {
+      "src": "cuparkit.github.io/img/CUparkit_Logo_Android_SM.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "cuparkit.github.io/img/CUparkit_Logo_Android_LG.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "cuparkit.github.io",
+  "background_color": "#ffa000",
+  "display": "standalone",
+  "scope": "/cuparkit.github.io/",
+  "theme_color": "#ff6f00"
+}
