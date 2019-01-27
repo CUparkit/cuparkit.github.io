@@ -1,10 +1,10 @@
 
-var app = angular.module("cuparkit", ["ngRoute", "$interpolateProvider"]);
+var app = angular.module("cuparkit", ["ngRoute"]);
 
 app.config(function($interpolateProvider) {
     $interpolateProvider.startSymbol("[[");
     $interpolateProvider.endSymbol("]]");
-})
+});
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -26,15 +26,18 @@ app.config(function($routeProvider) {
         });
 });
 
-app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler",
-                   function( $scope ,  apiHandler,   settingsHandler) {
+app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
+                   function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
     
+    
+    $scope.stateHandler = stateHandler;
+
     var promise = apiHandler.getData();
 
     promise.then(function(data) {
         $scope.lots = data;
         console.log($scope.lots)
-    })
+    });
 
     // $scope.$watch('apiHandler.data', function (newVal, oldVal, scope) {
     //     scope.data = newVal
@@ -43,17 +46,23 @@ app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler",
 
 }]);
 
-app.controller("settingsCtrl", [function() {
+app.controller("settingsCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
+                       function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
+
 
 }]);
 
-app.controller("surveyCtrl", [function(){
+app.controller("surveyCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
+                     function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
 
 }]);
 
-app.controller("lotCtrl", [function() {
+app.controller("lotCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
+                  function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
 
-
+    $scope.selectedLot = stateHandler.getSelectedLot();
+    
+    new ProgressBar.Circle("#lot-status-big").animate(0.6);
 
 }]);
 
@@ -69,6 +78,7 @@ app.factory("stateHandler", [function() {
 
     service.setSelectedLot = function(newSelection) {
         selectedLot = newSelection;
+        console.log(selectedLot);
     }
 
     return service;
@@ -77,7 +87,7 @@ app.factory("stateHandler", [function() {
 
 app.factory("apiHandler", ["$http", "$q", function($http, $q) {
 
-    var REQUEST_URL = "https://cuparkit.firebaseio.com/lots.json";
+    var REQUEST_URL = "https://cuparkit.firebaseio.com/feed.json";
     var service = {};
     
     var data = $q.defer();
@@ -87,7 +97,7 @@ app.factory("apiHandler", ["$http", "$q", function($http, $q) {
     };
 
     var handleResponse = function(response) {
-        data.resolve(response.data);
+        data.resolve(response.data.lots);
         console.log(data);
     }
 
