@@ -38,32 +38,36 @@ app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler",
         // console.log($scope.lots)
     });
 
+    $scope.selectedLotName = "";
+
+    $scope.lotPageInit = function(lotName) {
+
+        $scope.selectedLotName = lotName;
+
+        selectedLot = apiHandler.getLot(lotName);
+        hour = new Date().getHours();
+
+        new ProgressBar.Circle("#lot-status-big", {
+            from: { color: '#aaa', width: 1 },
+            to: { color: '#333', width: 7 },
+            strokeWidth: 7,
+            text: {
+                autoStyleContainer: true
+            },
+            step: function(state, circle) {
+                circle.setText(Math.round(circle.value() * 100));
+            }   
+        }).animate(0.6);
+
+
+    }
+
     // $scope.$watch('apiHandler.data', function (newVal, oldVal, scope) {
     //     scope.data = newVal
     // });
 
-    // new ProgressBar.Circle("#lot-status-big", {
-    //     from: { color: '#aaa', width: 1 },
-    //     to: { color: '#333', width: 7 },
-    //     strokeWidth: 7,
-    //     text: {
-    //         autoStyleContainer: true
-    //     },
-    //     step: function(state, circle) {
 
-    //           circle.setText(Math.round(circle.value() * 100));
-        
-    //     }
-        
-    // }).animate(0.6);
 
-}]);
-
-app.factory("timeHelper", [function() {
-    console.info("TIME HELPER LOADED");
-    return {
-        getHour: function() { new Date().getHours(); }
-    }
 }]);
 
 app.factory("apiHandler", ["$http", "$q", function($http, $q) {

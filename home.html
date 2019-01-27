@@ -7,8 +7,8 @@ layout: null
 <div class="collection">
     <a class="collection-item avatar" href="#!lot" 
        ng-repeat="lot in lots" 
-       ng-click="stateHandler.setSelectedLot(lot.name)">
-       
+       ng-click="lotPageInit(lot.name)">
+
       <img src="{{site.url}}/img/CUparkit_Logo_IOS.png" alt="" class="circle">
       <span class="title">[[lot.name]] ([[lot.location]])</span>
       <p><span class="live-icon"></span> Busier than usual.</p>
