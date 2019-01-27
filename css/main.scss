@@ -12,7 +12,11 @@
 
 
 #lot-status-big {
-    width: 45vw;
-    height: 45vw;
-    margin: 5px;
+    width: 30vw;
+    height: 30vw;
+    margin: 2vw;
+}
+
+#lot-status-big .progressbar-text {
+    font-size: 30px;
 }

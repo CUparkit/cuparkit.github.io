@@ -1,0 +1,28 @@
+<h4>I am...</h4>
+<div class="row">
+    <div class="col-6">
+        <a class="waves-effect waves-light btn-large">Parking</a>
+    </div>
+    <div class="col-6">
+        <a class="waves-effect waves-light btn-large">Leaving</a>
+    </div>
+</div>
+
+<h4> Which Lot?</h4>
+<div class="input-field col s12">
+    <select>
+        <option value="" disabled selected>Choose your option</option>
+        <option ng-repeat="lot in lots" value="[[$index]]">[[lot.name]]</option>
+    </select>
+    <label>Select Lot</label>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, options);
+    });
+
+
+</script>

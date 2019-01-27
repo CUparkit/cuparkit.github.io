@@ -29,6 +29,7 @@ app.config(function($routeProvider) {
 app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
                    function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
     
+    console.info("MAINCTRL LOADED");
     
     $scope.stateHandler = stateHandler;
 
@@ -36,7 +37,7 @@ app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHan
 
     promise.then(function(data) {
         $scope.lots = data;
-        console.log($scope.lots)
+        // console.log($scope.lots)
     });
 
     // $scope.$watch('apiHandler.data', function (newVal, oldVal, scope) {
@@ -49,43 +50,97 @@ app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHan
 app.controller("settingsCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
                        function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
 
+    
+    var promise = apiHandler.getData();
+
+    promise.then(function(data) {
+        $scope.lots = data;
+        // console.log($scope.lots)
+    });
+    console.info("SETTINGSCTRL LOADED");
 
 }]);
 
 app.controller("surveyCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
                      function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
-
-}]);
-
-app.controller("lotCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler",
-                  function( $scope ,  apiHandler,   settingsHandler,   stateHandler) {
-
-    $scope.selectedLot = stateHandler.getSelectedLot();
     
-    new ProgressBar.Circle("#lot-status-big").animate(0.6);
+    
+    var promise = apiHandler.getData();
+
+    promise.then(function(data) {
+        $scope.lots = data;
+        // console.log($scope.lots)
+    });
+    console.info("SURVEYCTRL LOADED");
 
 }]);
 
-app.factory("stateHandler", [function() {
+app.controller("lotCtrl", ["$scope", "apiHandler", "settingsHandler", "stateHandler", "timeHelper",
+                  function( $scope ,  apiHandler,   settingsHandler,   stateHandler, timeHelper) {
+
+    console.info("LOTCTRL LOADED");
+
+    var promise = apiHandler.getData();
+
+    promise.then(function(data) {
+        $scope.lots = data;
+        // console.log($scope.lots)
+    });
+    $scope.stateHandler = stateHandler;
+
+    
+    new ProgressBar.Circle("#lot-status-big", {
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#333', width: 7 },
+        strokeWidth: 7,
+        text: {
+            autoStyleContainer: true
+        },
+        step: function(state, circle) {
+
+              circle.setText(Math.round(circle.value() * 100));
+        
+        }
+        
+    }).animate(0.6);
+
+}]);
+
+app.factory("timeHelper", [function() {
+    console.info("TIME HELPER LOADED");
+    return {
+        getHour: function() { new Date().getHours(); }
+    }
+}]);
+
+app.factory("stateHandler", ["apiHandler", function(apiHandler) {
+
+    console.info("STATE HANDLER LOADED");
 
     var service = {}
 
-    var selectedLot = undefined;
+    var selectedLotName = "";
 
     service.getSelectedLot = function() {
-        return selectedLot;
-    }
+        return apiHandler.getLot(selectedLotName);
+    };
 
-    service.setSelectedLot = function(newSelection) {
-        selectedLot = newSelection;
-        console.log(selectedLot);
-    }
+    service.getSelectedLotName = function() {
+        return selectedLotName;
+    };
+
+    service.setSelectedLotName = function(newSelection) {
+        selectedLotName = newSelection;
+        console.log(selectedLotName);
+    };
 
     return service;
 
 }]);
 
 app.factory("apiHandler", ["$http", "$q", function($http, $q) {
+
+    console.info("API HANDLER LOADED");
 
     var REQUEST_URL = "https://cuparkit.firebaseio.com/feed.json";
     var service = {};
@@ -98,34 +153,36 @@ app.factory("apiHandler", ["$http", "$q", function($http, $q) {
 
     var handleResponse = function(response) {
         data.resolve(response.data.lots);
-        console.log(data);
-    }
+        // console.log(data);
+    };
 
     service.update();
 
     service.getData = function() {
         return data.promise;
-    }
+    };
 
     service.getLot = function(name) {
-        return data.lots[name];
-    }
-
+        return data[name];
+    };
+    
     return service;
 
 }]);
 
 app.factory("settingsHandler", [function() {
 
-    var STORAGE_KEY = "settings"
+    console.info("SETTINGSHANDLER LOADED");
 
-    var service = {}
+    var STORAGE_KEY = "settings";
+
+    var service = {};
     
     var default_settings = {
         "favoriteLots": [],
         "permitType": "",
         "lastUsedLot": ""
-    }
+    };
 
     var settings = {};
 
@@ -141,20 +198,20 @@ app.factory("settingsHandler", [function() {
 
     service.getSetting = function(key) {
         return settings[key];
-    }
+    };
 
     service.setSetting = function(key, value) {
         settings[key] = value;
         this.writeSettings();
-    }
+    };
 
     service.getSettingsObject = function() {
         return settings;
-    }
+    };
 
     service.writeSettings = function() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-    }
+    };
 
     service.writeSettings();
 
