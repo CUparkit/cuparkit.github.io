@@ -1,0 +1,33 @@
+---
+---
+
+<form action="#">
+    <h4>I am...</h4>
+    <p>
+    <label>
+        <input name="group1" type="radio" checked />
+        <span>Leaving Now</span>
+    </label>
+    </p>
+    <p>
+    <label>
+        <input name="group1" type="radio" />
+        <span>Just Arrived</span>
+    </label>
+    </p>
+    <h4>Which lot did you park in?</h4>
+    <div class="input-field col s12">
+            <select>
+              <option disabled selected>Choose your option</option>
+              <option ng-repeat="lot in lots" value="$index">[[lot.name]]</option>
+            </select>
+            <label>Materialize Select</label>
+    </div>
+    <h4>How many spaces were open?</h4>
+    <p class="range-field">
+      <input type="range" id="test5" min="0" step="5" max="100" />
+    </p>
+    <h2></h2>
+    <a class="waves-effect waves-light btn" href="{{site.url}}"><i class="material-icons right">send</i>Send Report</a>
+</form>
+        
