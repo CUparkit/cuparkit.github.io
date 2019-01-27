@@ -1,6 +1,9 @@
 ---
 ---
 
+@import "chart.scss";
+// @import "bar-graph.scss";
+
 .live-icon::before {
     content: "LIVE";
     background-color: red;
@@ -19,4 +22,8 @@
 
 #lot-status-big .progressbar-text {
     font-size: 30px;
+}
+
+.w-100 {
+    width: 100%;
 }

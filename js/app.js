@@ -1,63 +1,84 @@
 
-var app = angular.module("cuparkit", ["ngRoute"]);
+var app = angular.module("cuparkit", []);
 
 app.config(function($interpolateProvider) {
     $interpolateProvider.startSymbol("[[");
     $interpolateProvider.endSymbol("]]");
 });
 
-app.config(function($routeProvider) {
-    $routeProvider
-        .when("/", {
-            templateUrl: "home.html",
-            controller: "mainCtrl"
-        })
-        .when("/lot", {
-            templateUrl: "lot.html",
-            controller: "mainCtrl"
-        })
-        .when("/survey", {
-            templateUrl: "survey.html",
-            controller: "mainCtrl"
-        })
-        .when("/settings", {
-            templateUrl: "settings.html",
-            controller: "mainCtrl"
-        });
-});
-
 app.controller("mainCtrl", ["$scope", "apiHandler", "settingsHandler",
                    function( $scope ,  apiHandler,   settingsHandler) {
     
     console.info("MAINCTRL LOADED");
+    
+    $scope.hour = new Date().getHours();
+    // $scope.calendarOptions = {
+    //     axisX: {
+    //         labelInterpolationFnc: function(value) {
+    //             return "Hour " + value;
+    //         }
+    //     }
+    // };
+
+    // $scope.calendarDataStructure = {
+    //     labels : ['12a', '1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a',
+    //               '9a', '10a', '11a', '12p', '1p', '2p', '3p', '4p',
+    //               '5p', '6p', '7p', '8p', '9p', '10p', '11p'],
+    //     series: [
+    //         {
+    //             "data": []
+    //         }
+    //     ]
+        
+    // };
+
 
     var promise = apiHandler.getData();
 
     promise.then(function(data) {
         $scope.lots = data;
-        // console.log($scope.lots)
+        console.log($scope.lots)
     });
 
-    $scope.selectedLotName = "";
+    $scope.$on("ngRepeatFinished", function(ngRepeatFinishedEvent) {
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elems, options);
+        });
+
+    });
+
+    $scope.showSection = function(mode) {
+        allSections = document.querySelectorAll("section");
+
+        for (var i=0; i<allSections.length; i++) {
+            allSections[i].setAttribute("class", "hide");
+        }
+
+        document.querySelector("#" + mode).setAttribute("class", "");
+    };
 
     $scope.lotPageInit = function(lotName) {
 
-        $scope.selectedLotName = lotName;
+        console.log(lotName + " SELECTED");
 
-        selectedLot = apiHandler.getLot(lotName);
+        // $scope.selectedLot = $scope.lots[0];
+
         hour = new Date().getHours();
 
-        new ProgressBar.Circle("#lot-status-big", {
-            from: { color: '#aaa', width: 1 },
-            to: { color: '#333', width: 7 },
-            strokeWidth: 7,
-            text: {
-                autoStyleContainer: true
-            },
-            step: function(state, circle) {
-                circle.setText(Math.round(circle.value() * 100));
-            }   
-        }).animate(0.6);
+        // new ProgressBar.Circle("#lot-status-big", {
+        //     from: { color: '#aaa', width: 1 },
+        //     to: { color: '#333', width: 7 },
+        //     strokeWidth: 7,
+        //     text: {
+        //         autoStyleContainer: true
+        //     },
+        //     step: function(state, circle) {
+        //         circle.setText(Math.round(circle.value() * 100));
+        //     }   
+        // }).animate(0.6);
+
 
 
     }

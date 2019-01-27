@@ -7,7 +7,7 @@ layout: null
 <div class="collection">
     <a class="collection-item avatar" href="#!lot" 
        ng-repeat="lot in lots" 
-       ng-click="lotPageInit(lot.name)">
+       ng-click="selectedLot = lot">
 
       <img src="{{site.url}}/img/CUparkit_Logo_IOS.png" alt="" class="circle">
       <span class="title">[[lot.name]] ([[lot.location]])</span>

@@ -1,4 +1,51 @@
 ---
 ---
 
-<ng-view></ng-view>
+<section id="home">
+    <h4>All Lots</h4>
+
+    <ul class="collapsible">
+        <li ng-repeat="lot in lots">
+            <div class="collapsible-header layout">
+                <div class="col w-100">
+                <div><h5>[[lot.name]]</h5> ([[lot.location]])</div>
+                <div class="progress">
+                    <div class="determinate" style="width: [[(lot.forecast[hour] * 100)]]%"></div>
+                </div></div>
+            </div>
+            <div class="collapsible-body">
+                <ul id="chart-[[$index]]" class="chart">
+                    <li ng-repeat="timeslot in lot.forecast">
+                        <span class="chartspan" style="height: [[timeslot * 100]]%" title="[[$index]]"></span>
+                    </li>                    
+                </ul>
+            </div>
+        </li>
+    </ul>
+</section>
+
+
+<section class="hide" id="survey">
+    <h4>I am...</h4>
+    <div class="row">
+        <div class="col-6">
+            <a class="waves-effect waves-light btn-large">Parking</a>
+        </div>
+        <div class="col-6">
+            <a class="waves-effect waves-light btn-large">Leaving</a>
+        </div>
+    </div>
+
+    <h4> Which Lot?</h4>
+    <div class="input-field col s12">
+        <select>
+            <option value="" disabled selected>Choose your option</option>
+            <option ng-repeat="lot in lots" value="[[$index]]">[[lot.name]]</option>
+        </select>
+        <label>Select Lot</label>
+    </div>
+</section>
+
+<section class="hide" id="settings">
+
+</section>

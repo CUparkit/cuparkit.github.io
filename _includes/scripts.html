@@ -8,8 +8,9 @@
 <!-- AngularJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js" integrity="sha256-QRJz3b0/ZZC4ilKmBRRjY0MgnVhQ+RR1tpWLYaRRjSo=" crossorigin="anonymous"></script>
 
+
 <!-- Angular Route -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-route.min.js" integrity="sha256-PQfkC+TI/HZv0O9JbmrLmPyhgOT2hry24vA5yAV59zY=" crossorigin="anonymous"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-route.min.js" integrity="sha256-PQfkC+TI/HZv0O9JbmrLmPyhgOT2hry24vA5yAV59zY=" crossorigin="anonymous"></script> -->
 
 <!-- Angular Application -->
 <script src="js/app.js"></script>
@@ -18,9 +19,14 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        // Side Navigation Initialization
-        // var elems = document.querySelectorAll('.sidenav');
-        // var instances = M.Sidenav.init(elems, undefined);
+       interval = setInterval(function() {
+            M.AutoInit();
+    
+       }, 3000);
+
+       setTimeout(function(interval) {
+            clearInterval(interval);
+       }, 20000);
 
     });
 </script>
